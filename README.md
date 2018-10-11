@@ -55,7 +55,7 @@
 ## 小组项目提交方式
 
 1.  组长将期中项目fork到自己所在小组的仓库下，如图所示；
-![preview](https://gitee.com/code_sysu/midterm_project/raw/master/manual/images/fork.jpg)
+![preview](https://gitee.com/code_sysu/midterm_project/raw/master/manual/images/fork.png)
 2.  在小组项目中，组长分别在code、report目录下新建目录，目录名为“Group+组号”，例如“Group1”；
 3.  组员fork小组项目到个人仓库下，然后clone到本地目录，在“code\Group组号”目录下，新建Android项目，按分工编写程序，注意.gitignore的编写，避免添加不必要的中间文件、临时文件到git中；
 4.  实验报告按给出的模版(manual中的report_template.md)的内容要求，以md的格式，写在“report\Group组号\12345678WangXiaoMing”目录下，结果截图也放在该目录下；
