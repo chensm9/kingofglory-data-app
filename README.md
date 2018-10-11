@@ -61,7 +61,7 @@
 4.  实验报告按给出的模版(manual中的report_template.md)的内容要求，以md的格式，写在“report\Group组号\12345678WangXiaoMing”目录下，结果截图也放在该目录下；
 5.  项目完成时，组员Pull Request回小组项目的master分支，组长再Pull Request回主项目的master分支；
 6.  组长Pull Request时，请确保“code\Group组号”目录下的Android项目是可执行的，“report\Group组号”含所有项目文档（实验报告、用户说明文档、小组分工）及视频
-7.  建议组员Pull Request时，仅Pull Request JAVA文件合XML文件等必要文件，不要Pull Request配置文件，避免配置文件随意被覆盖，导致最终项目无法运行；
+7.  建议组员Pull Request时，仅Pull Request JAVA文件和XML文件等必要文件，不要Pull Request配置文件，避免配置文件随意被覆盖，导致最终项目无法运行；
 
 ---  
 
