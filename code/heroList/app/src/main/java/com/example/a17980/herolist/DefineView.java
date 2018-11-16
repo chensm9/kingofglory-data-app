@@ -30,6 +30,10 @@ public class DefineView extends View {
         epigraph_type = Epigraph;
     }
 
+    public String getEpigraph_type() {
+        return epigraph_type;
+    }
+
     public DefineView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray type=context.obtainStyledAttributes(attrs, R.styleable.defineView);
@@ -44,6 +48,12 @@ public class DefineView extends View {
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.red);
         } else if(epigraph_type.equals("green")){
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.green);
+        } else if(epigraph_type.equals("a")) {
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.a);
+        } else if(epigraph_type.equals("b")){
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.b);
+        }else if(epigraph_type.equals("c")) {
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.c);
         } else {
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.d);
         }

@@ -171,14 +171,14 @@
             android:onClick="click1"/>
     </com.example.a17980.herolist.DefineViewGroup>
     <RelativeLayout
+        android:id="@+id/first"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         define:layout_constraintTop_toBottomOf="@+id/defineViewGroup"
         android:layout_gravity="center"
         android:background="#181c28"
-        android:layout_weight="1"
-        android:visibility="gone">
+        android:layout_weight="1">
         <TextView
             android:id="@+id/sum"
             android:layout_width="100dp"
@@ -229,6 +229,7 @@
             android:onClick="clear"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/second"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -311,17 +312,29 @@
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/third"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         define:layout_constraintTop_toBottomOf="@+id/defineViewGroup"
         android:layout_gravity="center"
         android:background="#181c28"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/text6"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:text="选择铭文"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
         <ListView
             android:id="@+id/lv3"
-            android:layout_width="130dp"
-            android:layout_height="200dp"
+            android:layout_below="@id/text6"
+            android:layout_width="200dp"
+            android:layout_height="250dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp">
         </ListView>
