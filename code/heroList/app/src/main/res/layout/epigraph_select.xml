@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:define="http://schemas.android.com/apk/res-auto">
+    <com.example.a17980.herolist.DefineView
+        android:id="@+id/sample"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        define:epigraph_type="other"/>
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+</android.support.constraint.ConstraintLayout>

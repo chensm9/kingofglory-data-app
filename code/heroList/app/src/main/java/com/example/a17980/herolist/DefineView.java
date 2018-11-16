@@ -37,17 +37,13 @@ public class DefineView extends View {
         init();
     }
 
-    public void refresh() {
-        super.invalidate();
-    }
-
     private void init() {
         if(epigraph_type.equals("blue")) {
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.a);
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.blue);
         } else if(epigraph_type.equals("red")) {
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.b);
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.red);
         } else if(epigraph_type.equals("green")){
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.c);
+            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.green);
         } else {
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.d);
         }
