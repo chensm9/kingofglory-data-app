@@ -18,10 +18,13 @@ public class EpigraphActivity extends Activity {
     private EpigraphSelectAdapter select_adapter;  // 选择铭文
     private DefineView current = null;
     private DefineView m_sample;
+    private myDB m_DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.epigraph);
+
+        m_DB = myDB.getInstance(this);
 
         m_sample = findViewById(R.id.sample);
         ListView lv = findViewById(R.id.lv);
@@ -40,7 +43,14 @@ public class EpigraphActivity extends Activity {
 
         ListView lv3 = findViewById(R.id.lv3);
         epigraph_name = new ArrayList<>();
-        select_adapter = new EpigraphSelectAdapter(this, epigraph_name);
+        select_adapter = new EpigraphSelectAdapter(this, epigraph_name) {
+            @Override
+            public void click(String s) {
+                current.setEpigraph(s);
+                current.invalidate();
+                go("first", "");
+            }
+        };
         lv3.setAdapter(select_adapter);
 
     }
@@ -48,26 +58,11 @@ public class EpigraphActivity extends Activity {
     public void click1(View view) {
         current = (DefineView) view;
         if(current.getEpigraph_type().equals("blue")) {
-            epigraph_name.clear();
-            for(int i = 1; i < 6; i++) {
-                epigraph_name.add("a");
-            }
-            select_adapter.notifyDataSetChanged();
-            go("third");
+            go("third", "blue");
         } else if(current.getEpigraph_type().equals("green")) {
-            epigraph_name.clear();
-            for(int i = 1; i < 6; i++) {
-                epigraph_name.add("c");
-            }
-            select_adapter.notifyDataSetChanged();
-            go("third");
+            go("third", "green");
         } else if(current.getEpigraph_type().equals("red")) {
-            epigraph_name.clear();
-            for(int i = 1; i < 6; i++) {
-                epigraph_name.add("b");
-            }
-            select_adapter.notifyDataSetChanged();
-            go("third");
+            go("third", "red");
         } else {
             sample_attr.clear();
             m_sample.setEpigraph(current.getEpigraph_type());
@@ -77,7 +72,7 @@ public class EpigraphActivity extends Activity {
                 sample_attr.add(c);
             }
             sample_adapter.notifyDataSetChanged();
-            go("second");
+            go("second", "");
         }
     }
 
@@ -95,21 +90,27 @@ public class EpigraphActivity extends Activity {
         }
     }
 
+    public String index_to_type(int i) {
+        if(i >= 0 && i < 10)
+            return "blue";
+        else if(i >= 10 && i < 20)
+            return "green";
+        else
+            return "red";
+    }
+
     public void clear_one(View view) {
         DefineViewGroup g = findViewById(R.id.defineViewGroup);
         if(current != null) {
             int i = g.indexOfChild(current);
-            if(i >= 0 && i < 10)
-                current.setEpigraph("blue");
-            else if(i >= 10 && i < 20)
-                current.setEpigraph("green");
-            else
-                current.setEpigraph("red");
+            current.setEpigraph(index_to_type(i));
             current.invalidate();
+            go("third", index_to_type(i));
         }
     }
 
-    public void go(String mode) {
+    // type 用于跳转到third
+    public void go(String mode, String type) {
         RelativeLayout r1 = findViewById(R.id.first);
         RelativeLayout r2 = findViewById(R.id.second);
         RelativeLayout r3 = findViewById(R.id.third);
@@ -126,5 +127,36 @@ public class EpigraphActivity extends Activity {
             r2.setVisibility(View.GONE);
             r1.setVisibility(View.GONE);
         }
+        if(!type.equals("")) {  // 获取所有指定颜色铭文
+            if(type.equals("blue")) {
+                epigraph_name.clear();
+                for(int i = 1; i < 6; i++) {
+                    epigraph_name.add("a");
+                }
+                select_adapter.notifyDataSetChanged();
+            } else if(type.equals("green")) {
+                epigraph_name.clear();
+                for(int i = 1; i < 6; i++) {
+                    epigraph_name.add("c");
+                }
+                select_adapter.notifyDataSetChanged();
+            } else {
+                epigraph_name.clear();
+                for(int i = 1; i < 6; i++) {
+                    epigraph_name.add("b");
+                }
+                select_adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    public void click2(View view) {
+        DefineViewGroup g = findViewById(R.id.defineViewGroup);
+        int i = g.indexOfChild(current);
+        go("third", index_to_type(i));
+    }
+
+    public void click3(View view) {
+        go("first", "");
     }
 }
