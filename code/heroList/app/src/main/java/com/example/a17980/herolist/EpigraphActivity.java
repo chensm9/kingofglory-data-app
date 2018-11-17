@@ -5,9 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class EpigraphActivity extends Activity {
     private List<attr_collection> m_attr;
@@ -27,12 +34,9 @@ public class EpigraphActivity extends Activity {
 
         m_db = myDB.getInstance();
         m_sample = findViewById(R.id.sample);
+
         ListView lv = findViewById(R.id.lv);
         m_attr = new ArrayList<>();
-        for(int i = 0; i < 800; i+=100) {
-            attr_collection c = new attr_collection("物理穿透"+i, i);
-            m_attr.add(c);
-        }
         attr_adapter = new EpigraphAdapter(this, m_attr);
         lv.setAdapter(attr_adapter);
 
@@ -67,10 +71,25 @@ public class EpigraphActivity extends Activity {
             sample_attr.clear();
             m_sample.setEpigraph(current.getEpigraph_type());
             m_sample.invalidate();
-            for(int i = 0; i < 400; i+=100) {
-                attr_collection c = new attr_collection("物理穿透"+i, i);
-                sample_attr.add(c);
+            TextView text = findViewById(R.id.text4);
+            text.setText(m_db.get_epigraph_level(current.getEpigraph_type())+"铭文:"+current.getEpigraph_type());
+            String json = m_db.get_epigraph_attr(current.getEpigraph_type());
+            try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    Iterator p = jsonObject.keys();
+                    while(p.hasNext()) {
+                        String attr_name = p.next().toString();
+                        String attr_count = jsonObject.getString(attr_name);
+                        attr_collection c = new attr_collection(attr_name, attr_count);
+                        sample_attr.add(c);
+                    }
+            } catch (Exception e) {
+                System.out.print(e.getMessage());
             }
+//            for(int i = 0; i < 400; i+=100) {
+//                attr_collection c = new attr_collection("物理穿透"+i, i);
+//                sample_attr.add(c);
+//            }
             sample_adapter.notifyDataSetChanged();
             go("second", "");
         }
@@ -88,6 +107,7 @@ public class EpigraphActivity extends Activity {
                 v.setEpigraph("red");
             v.invalidate();
         }
+        calculate_attr();
     }
 
     public String index_to_type(int i) {
@@ -109,6 +129,62 @@ public class EpigraphActivity extends Activity {
         }
     }
 
+    public void calculate_attr() {
+        DefineViewGroup g = findViewById(R.id.defineViewGroup);
+        int count = 0;
+        m_db = myDB.getInstance();
+        m_attr.clear();
+        attr_adapter.notifyDataSetChanged();
+        TextView text = findViewById(R.id.sum);
+        text.setText("0");
+        Map<String, String> attr_map = new HashMap<>();
+        for(int i = 0; i < g.getChildCount(); i++) {
+            DefineView v = (DefineView)g.getChildAt(i);
+            if(!v.getEpigraph_type().equals("red") && !v.getEpigraph_type().equals("blue") && !v.getEpigraph_type().equals("green")) {
+                String name = v.getEpigraph_type();
+                String level = m_db.get_epigraph_level(name);
+                count += Integer.parseInt(level.substring(0,1));
+                String json = m_db.get_epigraph_attr(name);
+                try {
+                    JSONObject jsonObject = new JSONObject(json);
+                    Iterator p = jsonObject.keys();
+                    while(p.hasNext()) {
+                        String attr_name = p.next().toString();
+                        String attr_count = jsonObject.getString(attr_name);
+                        if(attr_map.containsKey(attr_name)) {
+                            String c = attr_map.get(attr_name);
+                            if(c.charAt(c.length()-1) == '%') {
+                                float a = Float.parseFloat(c.substring(1,c.length()-1));
+                                float b = Float.parseFloat(attr_count.substring(1,attr_count.length()-1));
+                                BigDecimal a1 = new BigDecimal(String.valueOf(a));
+                                BigDecimal b1 = new BigDecimal(String.valueOf(b));
+                                BigDecimal d = a1.add(b1);
+                                attr_map.put(attr_name, "+"+d.toString()+"%");
+                            } else {
+                                float a = Float.parseFloat(c.substring(1,c.length()));
+                                float b = Float.parseFloat(attr_count.substring(1,attr_count.length()));
+                                BigDecimal a1 = new BigDecimal(String.valueOf(a));
+                                BigDecimal b1 = new BigDecimal(String.valueOf(b));
+                                BigDecimal d = a1.add(b1);
+                                attr_map.put(attr_name, "+"+d.toString());
+                            }
+                        } else {
+                            attr_map.put(attr_name, attr_count);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.print(e.getMessage());
+                }
+            }
+        }
+        for (String key : attr_map.keySet()) {
+            attr_collection c = new attr_collection(key, attr_map.get(key));
+            m_attr.add(c);
+        }
+        attr_adapter.notifyDataSetChanged();
+        text.setText(count+"");
+    }
+
     // type 用于跳转到third
     public void go(String mode, String type) {
         RelativeLayout r1 = findViewById(R.id.first);
@@ -118,6 +194,7 @@ public class EpigraphActivity extends Activity {
             r1.setVisibility(View.VISIBLE);
             r2.setVisibility(View.GONE);
             r3.setVisibility(View.GONE);
+            calculate_attr();
         } else if(mode.equals("second")) {
             r2.setVisibility(View.VISIBLE);
             r1.setVisibility(View.GONE);

@@ -14,7 +14,7 @@
         android:id="@+id/name"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:textColor="#02FFFA"
+        android:textColor="#05dbff"
         define:layout_constraintLeft_toRightOf="@id/sample"
         android:gravity="center_vertical|right"
        android:textSize="20sp"/>

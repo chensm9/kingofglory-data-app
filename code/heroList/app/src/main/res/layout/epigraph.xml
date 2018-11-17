@@ -4,21 +4,22 @@
     android:layout_height="match_parent"
     xmlns:define="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#17273E">
-    <Button
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_margin="5dp"
-        android:text="返回"
-        android:textColor="#FFFFFF"
-        android:background="@color/colorPrimary"/>
+    android:background="@drawable/star">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#181c28">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:src="@drawable/back"/>
+    </LinearLayout>
     <com.example.a17980.herolist.DefineViewGroup
         android:id="@+id/defineViewGroup"
         android:layout_width="360dp"
         android:layout_height="280dp"
-        android:layout_gravity="center"
-        android:background="#17273E"
-        >
+        android:layout_gravity="center">
+        <!--        android:background="#17273E"-->
         <com.example.a17980.herolist.DefineView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -184,7 +185,7 @@
             android:id="@+id/sum"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="133"
+            android:text="0"
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="40sp"
@@ -213,21 +214,19 @@
         <ListView
             android:id="@+id/lv"
             android:layout_width="130dp"
-            android:layout_height="160dp"
+            android:layout_height="135dp"
             android:layout_below="@id/text2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp">
         </ListView>
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:text="一键拆卸"
-            android:textColor="#FFFFFF"
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="35dp"
             android:layout_below="@+id/lv"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
             android:layout_centerHorizontal="true"
-            android:onClick="clear"/>
+            android:onClick="clear"
+            android:src="@drawable/clear_all"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/second"
@@ -300,24 +299,20 @@
             android:orientation="horizontal"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/lv2">
-            <Button
+            <ImageView
                 android:id="@+id/bt2"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:text="拆卸"
-                android:textColor="#FFFFFF"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
                 android:onClick="clear_one"
-                android:layout_marginRight="10dp" />
-            <Button
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:text="更换"
-                android:textColor="#FFFFFF"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/clear_one"/>
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="35dp"
                 android:layout_toRightOf="@+id/bt2"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
+                android:src="@drawable/change"
                 android:onClick="click2"/>
         </LinearLayout>
     </RelativeLayout>

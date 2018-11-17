@@ -53,7 +53,7 @@ public class EpigraphAdapter extends BaseAdapter {
         }
         // 从viewHolder中取出对应的对象，然后赋值给他们
         viewHolder.attr_name.setText(list.get(i).getM_attr());
-        viewHolder.attr_count.setText("+"+list.get(i).getCount()+"");
+        viewHolder.attr_count.setText(list.get(i).getCount());
         final attr_collection c = list.get(i);
         final int t = i;
         // 将这个处理好的view返回

@@ -116,4 +116,13 @@ public class myDB {
         cursor.close();
         return level;
     }
+
+    public String get_epigraph_attr(String name) {
+        Cursor cursor = m_db.query("rune",
+                new String[] {"normalAttr"},
+                "name=?", new String[] {name}, null, null, null);
+        cursor.moveToFirst();
+        String attr = cursor.getString(0);
+        return attr;
+    }
 }

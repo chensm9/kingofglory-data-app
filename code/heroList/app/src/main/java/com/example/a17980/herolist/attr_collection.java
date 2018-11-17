@@ -2,9 +2,9 @@ package com.example.a17980.herolist;
 
 public class attr_collection {
     private String m_attr;
-    private float count;
+    private String count;
 
-    public attr_collection(String attr, float count) {
+    public attr_collection(String attr, String count) {
         this.m_attr = attr;
         this.count = count;
     }
@@ -13,7 +13,7 @@ public class attr_collection {
         return m_attr;
     }
 
-    public float getCount() {
+    public String getCount() {
         return count;
     }
 
@@ -21,7 +21,7 @@ public class attr_collection {
         this.m_attr = m_attr;
     }
 
-    public void setCount(float count) {
+    public void setCount(String count) {
         this.count = count;
     }
 }
