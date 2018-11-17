@@ -351,5 +351,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp">
         </ListView>
+        <!--<android.support.v7.widget.AppCompatSpinner-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/lv3"-->
+            <!--android:layout_below="@id/text6"-->
+            <!--android:entries="@array/level"-->
+            <!--&gt;-->
+        <!--</android.support.v7.widget.AppCompatSpinner>-->
     </RelativeLayout>
 </LinearLayout>
