@@ -12,6 +12,7 @@ import java.util.List;
 public abstract class EpigraphSelectAdapter extends BaseAdapter {
     private List<String> list;
     LayoutInflater inflater;
+    myDB m_db;
     public abstract void click(String s);
     public EpigraphSelectAdapter(Context context, List<String> list) {
         this.list = list;
@@ -62,7 +63,8 @@ public abstract class EpigraphSelectAdapter extends BaseAdapter {
         // 从viewHolder中取出对应的对象，然后赋值给他们
         viewHolder.sample.setEpigraph(list.get(i));
         viewHolder.sample.invalidate();
-        viewHolder.name.setText(list.get(i));
+        m_db = myDB.getInstance();
+        viewHolder.name.setText(m_db.get_epigraph_level(list.get(i))+"铭文:"+list.get(i));
         // 将这个处理好的view返回
         return convertView;
     }

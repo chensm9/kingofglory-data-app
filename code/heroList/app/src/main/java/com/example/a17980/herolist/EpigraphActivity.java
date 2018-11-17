@@ -18,14 +18,14 @@ public class EpigraphActivity extends Activity {
     private EpigraphSelectAdapter select_adapter;  // 选择铭文
     private DefineView current = null;
     private DefineView m_sample;
-    private myDB m_DB;
+    private myDB m_db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.epigraph);
 
-        m_DB = myDB.getInstance(this);
-
+        m_db = myDB.getInstance();
         m_sample = findViewById(R.id.sample);
         ListView lv = findViewById(R.id.lv);
         m_attr = new ArrayList<>();
@@ -128,25 +128,15 @@ public class EpigraphActivity extends Activity {
             r1.setVisibility(View.GONE);
         }
         if(!type.equals("")) {  // 获取所有指定颜色铭文
+            epigraph_name.clear();
             if(type.equals("blue")) {
-                epigraph_name.clear();
-                for(int i = 1; i < 6; i++) {
-                    epigraph_name.add("a");
-                }
-                select_adapter.notifyDataSetChanged();
+                m_db.get_epigraph(epigraph_name, "蓝色");
             } else if(type.equals("green")) {
-                epigraph_name.clear();
-                for(int i = 1; i < 6; i++) {
-                    epigraph_name.add("c");
-                }
-                select_adapter.notifyDataSetChanged();
-            } else {
-                epigraph_name.clear();
-                for(int i = 1; i < 6; i++) {
-                    epigraph_name.add("b");
-                }
-                select_adapter.notifyDataSetChanged();
+                m_db.get_epigraph(epigraph_name, "绿色");
+            } else if(type.equals("red")){
+                m_db.get_epigraph(epigraph_name, "红色");
             }
+            select_adapter.notifyDataSetChanged();
         }
     }
 

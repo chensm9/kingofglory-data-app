@@ -21,6 +21,7 @@ public class DefineView extends View {
     private Paint paint;
     private Bitmap bitmap;
     private String epigraph_type;
+    private myDB m_db;
     public DefineView(Context context) {
         super(context);
         init();
@@ -48,21 +49,20 @@ public class DefineView extends View {
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.red);
         } else if(epigraph_type.equals("green")){
             bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.green);
-        } else if(epigraph_type.equals("a")) {
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.a);
-        } else if(epigraph_type.equals("b")){
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.b);
-        }else if(epigraph_type.equals("c")) {
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.c);
         } else {
-            bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.d);
+            m_db = myDB.getInstance();
+            byte[] b = m_db.get_epigraph(epigraph_type);
+            bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            Matrix matrix = new Matrix();
+            matrix.postScale((float)2.5, (float)2.5);
+            // 得到新的圖片
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
         }
 
         Matrix matrix = new Matrix();
         matrix.postScale((float)0.33, (float)0.33);
         // 得到新的圖片
-        Bitmap newbm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
-        bitmap = newbm;
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
     }
     @Override
     protected void onDraw(Canvas canvas) {
