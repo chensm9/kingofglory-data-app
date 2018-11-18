@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class EpigraphSelectAdapter extends BaseAdapter {
@@ -50,6 +53,7 @@ public abstract class EpigraphSelectAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.sample = convertView.findViewById(R.id.sample);
             viewHolder.name = convertView.findViewById(R.id.name);
+            viewHolder.sample_attr = convertView.findViewById(R.id.sample_attr);
             convertView.setTag(viewHolder); // 用setTag方法将处理好的viewHolder放入view中
         } else { // 否则，让convertView等于view，然后从中取出ViewHolder即可
             viewHolder = (ViewHolder) convertView.getTag();
@@ -65,12 +69,29 @@ public abstract class EpigraphSelectAdapter extends BaseAdapter {
         viewHolder.sample.invalidate();
         m_db = myDB.getInstance();
         viewHolder.name.setText(m_db.get_epigraph_level(list.get(i))+"铭文:"+list.get(i));
+        String json = m_db.get_epigraph_attr(list.get(i));
+        viewHolder.sample_attr.setText("");
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Iterator p = jsonObject.keys();
+            while(p.hasNext()) {
+                String attr_name = p.next().toString();
+                String attr_count = jsonObject.getString(attr_name);
+                String t = viewHolder.sample_attr.getText().toString()+attr_name+" "+attr_count;
+                if(p.hasNext())
+                    t += "\n";
+                viewHolder.sample_attr.setText(t);
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
         // 将这个处理好的view返回
         return convertView;
     }
     private class ViewHolder {
         public DefineView sample;
         public TextView name;
+        public TextView sample_attr;
     }
 
 

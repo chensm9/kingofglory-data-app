@@ -56,7 +56,7 @@ public class EpigraphActivity extends Activity {
             }
         };
         lv3.setAdapter(select_adapter);
-
+        load();
     }
 
     public void click1(View view) {
@@ -225,5 +225,41 @@ public class EpigraphActivity extends Activity {
 
     public void click3(View view) {
         go("first", "");
+    }
+
+    public void save(View view) {
+        DefineViewGroup g = findViewById(R.id.defineViewGroup);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            for(int i = 0; i < 30; i++) {
+                DefineView d =  (DefineView)g.getChildAt(i);
+                String epigraph_type = d.getEpigraph_type();
+                jsonObject.put(i+"", epigraph_type);
+            }
+            m_db.save_epigraph(jsonObject.toString());
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
+    public void load() {
+        String json =  m_db.get_saved_epigraph();
+        if(!json.equals("")) {
+            DefineViewGroup g = findViewById(R.id.defineViewGroup);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                Iterator p = jsonObject.keys();
+                while(p.hasNext()) {
+                    String epigraph_id = p.next().toString();
+                    String epigraph_type = jsonObject.getString(epigraph_id);
+                    DefineView d =  (DefineView)g.getChildAt(Integer.parseInt(epigraph_id));
+                    d.setEpigraph(epigraph_type);
+                    d.invalidate();
+                }
+            } catch (Exception e) {
+                System.out.print(e.getMessage());
+            }
+            calculate_attr();
+        }
     }
 }

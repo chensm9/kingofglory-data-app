@@ -1,5 +1,6 @@
 package com.example.a17980.herolist;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -31,7 +32,21 @@ public class myDB {
         }catch (IOException e) {
             System.out.print("error");
         }
-        m_db = SQLiteDatabase.openDatabase(sqliePath, null, SQLiteDatabase.OPEN_READONLY);
+        m_db = SQLiteDatabase.openDatabase(sqliePath, null, SQLiteDatabase.OPEN_READWRITE);
+
+        String CREATE_EPIGRAPH_TABLE = "CREATE TABLE if not exists "
+                + "user_epigraph"
+                + " (_id INTEGER PRIMARY KEY, epigraph TEXT)";
+        m_db.execSQL(CREATE_EPIGRAPH_TABLE);
+
+        Cursor cursor = m_db.query("user_epigraph",
+                new String[] {"_id"},
+                null, null, null, null, null);
+        if(cursor.getCount() == 0) {
+            ContentValues cv = new ContentValues();
+            cv.put("epigraph", "");
+            m_db.insert("user_epigraph", null, cv);
+        }
     }
 
     // 复制和加载区域数据库中的数据
@@ -79,7 +94,7 @@ public class myDB {
     public void get_epigraph(List<String> s, String color) {
         Cursor cursor = m_db.query("rune",
                 new String[] {"name"},
-                "color=?", new String[] {color}, null, null, null);
+                "color=?", new String[] {color}, null, null, "level");
         while(cursor.moveToNext()) {
             s.add(cursor.getString(0));
         }
@@ -102,17 +117,6 @@ public class myDB {
                 "name=?", new String[] {name}, null, null, null);
         cursor.moveToFirst();
         String level = cursor.getString(0);
-        if(level.equals("一级")) {
-            level = "1级";
-        } else if(level .equals("二级")) {
-            level = "2级";
-        } else if(level.equals("三级")) {
-            level = "3级";
-        } else if(level.equals("四级")) {
-            level = "4级";
-        } else {
-            level = "5级";
-        }
         cursor.close();
         return level;
     }
@@ -124,5 +128,23 @@ public class myDB {
         cursor.moveToFirst();
         String attr = cursor.getString(0);
         return attr;
+    }
+
+    public String get_saved_epigraph() {
+        Cursor cursor = m_db.query("user_epigraph",
+                new String[] {"epigraph"},
+                "_id=?", new String[] {"1"}, null, null, null);
+        cursor.moveToFirst();
+        String epigraph = cursor.getString(0);  //一定会有一个默认值
+        return epigraph;
+    }
+
+    public void save_epigraph(String json) {
+        ContentValues cv = new ContentValues();
+        cv.put("epigraph", json);
+        String whereClause = "_id = ?";
+        String[] whereArgs = {"1"};
+
+        m_db.update("user_epigraph", cv, whereClause, whereArgs);
     }
 }
