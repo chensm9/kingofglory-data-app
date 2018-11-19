@@ -3,45 +3,88 @@ package com.example.a17980.herolist;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListActivity extends Activity {
 
-    ListView listView;
-    ListViewAdapter listViewAdapter;
+    GridView gridView;
+    GridViewAdapter adapter;
     FloatingActionButton floatingActionButton;
+    ImageButton imageButton;
+    RadioGroup type1;
+    RadioGroup type2;
+    boolean num;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
 
-        //listView
-        listView = findViewById(R.id.listView);
-        listViewAdapter = new ListViewAdapter();
-        listView.setAdapter(listViewAdapter);
+        //gridView
+        gridView = findViewById(R.id.gridView);
+        adapter = new GridViewAdapter();
+        gridView.setAdapter(adapter);
 
         //悬浮按钮
         init_floatButton();
+
+        //搜索按钮
+        init_search();
+
+        type1 = findViewById(R.id.type1);
+        type2 = findViewById(R.id.type2);
+        num = true;
+        //第一个RadioGroup
+        type1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (num) {
+                    num = false;
+                    type2.clearCheck();
+                    //...
+                }
+                num = true;
+            }
+        });
+        //第二个RadioGroup
+        type2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (num) {
+                    num = false;
+                    type1.clearCheck();
+                    //...
+                }
+                num = true;
+            }
+        });
     }
 
-
-    public class ListViewAdapter extends BaseAdapter {
+    //适配器
+    public class GridViewAdapter extends BaseAdapter {
         private List<Hero> Data;
-        ListViewAdapter(){
+        GridViewAdapter(){
             Data = new ArrayList<>();
             for (int i = 0;i < 10; ++i){
-                Hero hero = new Hero(R.mipmap.icon, "沈梦溪");
+                Hero hero = new Hero(R.mipmap.img_meitu_1, "沈梦溪");
                 Data.add(hero);
             }
         }
@@ -83,6 +126,34 @@ public class ListActivity extends Activity {
             viewHolder.Icon.setImageResource(hero.getHeroIcon());
             viewHolder.Name.setText(hero.getHeroName());
 
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("detail", adapter.Data.get(position));
+                    Intent intent = new Intent(ListActivity.this, DetailActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 0);
+                }
+            });
+
+            gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+                    builder.setTitle("提示").setMessage("确定删除" +
+                            adapter.getItem(position).getHeroName() + "?").setPositiveButton("确认",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Data.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            }).setNegativeButton("取消", null).create().show();
+                    return true;
+                }
+            });
+
             return convertView;
         }
 
@@ -92,12 +163,58 @@ public class ListActivity extends Activity {
         }
     }
 
+    //悬浮按钮
     public void init_floatButton(){
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+                builder.setTitle("请输入添加英雄的名称：");
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog,null);
+                builder.setView(view);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //如果数据库中有该英雄则成功添加，否则失败
+                        if (true){
+                            Toast.makeText(ListActivity.this, "该英雄不存在", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            //...
+                            Toast.makeText(ListActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
+            }
+        });
+    }
 
+    public void init_search(){
+        imageButton = findViewById(R.id.search_image);
+        imageButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+                builder.setTitle("请输入搜索英雄的名称：");
+                View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog,null);
+                builder.setView(view);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //如果英雄在列表中则成功添加，否则失败
+                        if (true){
+                            Toast.makeText(ListActivity.this, "该英雄不存在", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+
+                        }
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
     }
