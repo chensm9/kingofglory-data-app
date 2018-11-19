@@ -262,4 +262,8 @@ public class EpigraphActivity extends Activity {
             calculate_attr();
         }
     }
+
+    public void back(View view) {
+        this.finish();
+    }
 }

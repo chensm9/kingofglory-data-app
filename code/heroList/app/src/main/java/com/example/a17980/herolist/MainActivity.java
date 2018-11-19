@@ -3,14 +3,12 @@ package com.example.a17980.herolist;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.VideoView;
-
-import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        ImageButton epigraph = findViewById(R.id.epigraph);
+        epigraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EpigraphActivity.class);
                 startActivityForResult(intent, 0);
             }
         });

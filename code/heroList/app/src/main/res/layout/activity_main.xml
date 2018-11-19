@@ -15,6 +15,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@mipmap/title"
         android:scaleY="0.5"
         android:scaleX="0.5"
@@ -40,6 +42,18 @@
         android:scaleX="0.8"
         android:scaleY="0.8"
         app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageButton
+        android:layout_marginTop="5dp"
+        android:id="@+id/epigraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/start"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        app:layout_constraintTop_toBottomOf="@id/start"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
