@@ -213,18 +213,20 @@ public class myDB {
 
     public void get_skill(String name, Map<String, Bitmap> skill_map) {
         Cursor cursor = m_db.query("skill",
-                new String[] {"name", "skill_icon"},
-                "belongTo=?", new String[] {name}, null, null, null);
-        while(cursor.moveToNext()) {
+                new String[]{"name", "skill_icon"},
+                "belongTo=?", new String[]{name}, null, null, null);
+        while (cursor.moveToNext()) {
             String skill_name = cursor.getString(0);
             byte[] skill_icon = cursor.getBlob(1);
             Bitmap bitmap = BitmapFactory.decodeByteArray(skill_icon, 0, skill_icon.length);
             Matrix matrix = new Matrix();
-            matrix.postScale((float)3, (float)3);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
+            matrix.postScale((float) 3, (float) 3);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             skill_map.put(skill_name, bitmap);
         }
         cursor.close();
+    }
+    
     public List<EquipItem> get_equip_list(String type) {
         String sql = String.format("SELECT * FROM equip WHERE category = '%s' ORDER BY price", type);
         Cursor cursor = m_db.rawQuery(sql, null);
