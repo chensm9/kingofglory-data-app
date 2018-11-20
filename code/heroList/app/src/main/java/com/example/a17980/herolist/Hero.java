@@ -1,22 +1,24 @@
 package com.example.a17980.herolist;
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class Hero implements Serializable {
-    private int heroIcon;
+    private Bitmap heroIcon;
     private String heroName;
 
-    Hero(int heroIcon, String heroName){
+    Hero(Bitmap heroIcon, String heroName){
         this.heroIcon = heroIcon;
         this.heroName = heroName;
     }
 
-    public int getHeroIcon(){
+    public Bitmap getHeroIcon(){
         return heroIcon;
     }
     public String getHeroName(){
         return heroName;
     }
-    public void setHeroIcon(int heroIcon){
+    public void setHeroIcon(Bitmap heroIcon){
         this.heroIcon = heroIcon;
     }
     public void setHeroName(String heroName){

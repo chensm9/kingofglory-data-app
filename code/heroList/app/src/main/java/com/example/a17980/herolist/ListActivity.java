@@ -14,10 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +30,14 @@ public class ListActivity extends Activity {
     RadioGroup type1;
     RadioGroup type2;
     boolean num;
+    myDB m_db;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
 
+
+        m_db = myDB.getInstance();
         //gridView
         gridView = findViewById(R.id.gridView);
         adapter = new GridViewAdapter();
@@ -83,10 +83,7 @@ public class ListActivity extends Activity {
         private List<Hero> Data;
         GridViewAdapter(){
             Data = new ArrayList<>();
-            for (int i = 0;i < 10; ++i){
-                Hero hero = new Hero(R.mipmap.img_meitu_1, "沈梦溪");
-                Data.add(hero);
-            }
+            m_db.get_skin(Data);
         }
 
         @Override
@@ -123,14 +120,14 @@ public class ListActivity extends Activity {
                 viewHolder = (ViewHolder)convertView.getTag();
             }
 
-            viewHolder.Icon.setImageResource(hero.getHeroIcon());
+            viewHolder.Icon.setImageBitmap(hero.getHeroIcon());
             viewHolder.Name.setText(hero.getHeroName());
 
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("detail", adapter.Data.get(position));
+                    bundle.putSerializable("detail", adapter.Data.get(position).getHeroName());
                     Intent intent = new Intent(ListActivity.this, DetailActivity.class);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, 0);

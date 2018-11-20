@@ -3,6 +3,9 @@ package com.example.a17980.herolist;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 public class myDB {
     public static myDB instance = null;
@@ -91,6 +95,7 @@ public class myDB {
         return file.getPath();
     }
 
+    // 获取指定颜色的所有铭文
     public void get_epigraph(List<String> s, String color) {
         Cursor cursor = m_db.query("rune",
                 new String[] {"name"},
@@ -101,6 +106,7 @@ public class myDB {
         cursor.close();
     }
 
+    // 获取指定名称的铭文
     public byte[] get_epigraph(String name) {
         Cursor cursor = m_db.query("rune",
                 new String[] {"rune_image"},
@@ -111,6 +117,7 @@ public class myDB {
         return img;
     }
 
+    // 获取铭文等级
     public String get_epigraph_level(String name) {
         Cursor cursor = m_db.query("rune",
                 new String[] {"level"},
@@ -121,6 +128,7 @@ public class myDB {
         return level;
     }
 
+    // 获取铭文属性
     public String get_epigraph_attr(String name) {
         Cursor cursor = m_db.query("rune",
                 new String[] {"normalAttr"},
@@ -130,6 +138,7 @@ public class myDB {
         return attr;
     }
 
+    // 获取铭文记录
     public String get_saved_epigraph() {
         Cursor cursor = m_db.query("user_epigraph",
                 new String[] {"epigraph"},
@@ -139,6 +148,7 @@ public class myDB {
         return epigraph;
     }
 
+    // 保存当前铭文
     public void save_epigraph(String json) {
         ContentValues cv = new ContentValues();
         cv.put("epigraph", json);
@@ -146,5 +156,72 @@ public class myDB {
         String[] whereArgs = {"1"};
 
         m_db.update("user_epigraph", cv, whereClause, whereArgs);
+    }
+
+    // 获取所有皮肤
+    public void get_skin(List<Hero> data) {
+        Cursor cursor = m_db.query("skin",
+                new String[] {"belongTo", "skin_image"},
+                "price=?", new String[] {"初始皮肤"}, null, null, null);
+        while(cursor.moveToNext()) {
+            String name = cursor.getString(0);
+            byte[] skin = cursor.getBlob(1);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(skin, 0, skin.length);
+            data.add(new Hero(bitmap, name));
+        }
+        cursor.close();
+    }
+
+    // 获取指定英雄皮肤
+    public Bitmap get_one_skin(String name) {
+        Cursor cursor = m_db.query("skin",
+                new String[] {"skin_image"},
+                "price=? and belongTo=?", new String[] {"初始皮肤", name}, null, null, null);
+        Bitmap bitmap = null;
+        if(cursor.moveToFirst()){
+            byte[] skin = cursor.getBlob(0);
+            bitmap = BitmapFactory.decodeByteArray(skin, 0, skin.length);
+        }
+        cursor.close();
+        return bitmap;
+    }
+
+    // 获取英雄昵称
+    public String get_nick_name(String origin_name) {
+        Cursor cursor = m_db.query("skin",
+                new String[] {"name"},
+                "belongTo=? and price=?", new String[] {origin_name,"初始皮肤"}, null, null, null);
+        String nick_name = "";
+        if(cursor.moveToFirst())
+            nick_name = cursor.getString(0);
+        cursor.close();
+        return nick_name;
+    }
+
+    public String get_role(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"role"},
+                "name=?", new String[] {name}, null, null, null);
+        String role = "";
+        if(cursor.moveToFirst())
+            role = cursor.getString(0);
+        cursor.close();
+        return role;
+    }
+
+    public void get_skill(String name, Map<String, Bitmap> skill_map) {
+        Cursor cursor = m_db.query("skill",
+                new String[] {"name", "skill_icon"},
+                "belongTo=?", new String[] {name}, null, null, null);
+        while(cursor.moveToNext()) {
+            String skill_name = cursor.getString(0);
+            byte[] skill_icon = cursor.getBlob(1);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(skill_icon, 0, skill_icon.length);
+            Matrix matrix = new Matrix();
+            matrix.postScale((float)3, (float)3);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
+            skill_map.put(skill_name, bitmap);
+        }
+        cursor.close();
     }
 }
