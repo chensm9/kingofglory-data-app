@@ -12,8 +12,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 public class myDB {
     public static myDB instance = null;
@@ -223,5 +225,43 @@ public class myDB {
             skill_map.put(skill_name, bitmap);
         }
         cursor.close();
+    public List<EquipItem> get_equip_list(String type) {
+        String sql = String.format("SELECT * FROM equip WHERE category = '%s' ORDER BY price", type);
+        Cursor cursor = m_db.rawQuery(sql, null);
+
+        List<EquipItem> list = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            EquipItem equip= new EquipItem();
+            equip.setName(cursor.getString(cursor.getColumnIndex("name")));
+            equip.setPrice(""+cursor.getInt(cursor.getColumnIndex("price")));
+            byte[] data = cursor.getBlob(cursor.getColumnIndex("equip_icon"));
+            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+            equip.setImage(image);
+            list.add(equip);
+        }
+        cursor.close();
+        return list;
+    }
+
+    public EquipItem get_equip(String name) {
+        String sql = String.format("SELECT * FROM equip WHERE name = '%s'", name);
+        Cursor cursor = m_db.rawQuery(sql, null);
+        EquipItem equip = new EquipItem();
+        if (cursor.moveToFirst()) {
+            equip.setName(cursor.getString(cursor.getColumnIndex("name")));
+            equip.setPrice(""+cursor.getInt(cursor.getColumnIndex("price")));
+            String base_attr = cursor.getString(cursor.getColumnIndex("baseAttr"));
+            base_attr = base_attr.replace("{", "").replace("}", "");
+            base_attr = base_attr.replace("\"", "").replace(", ", "\n");
+            equip.setBase_attr(base_attr);
+            String equip_skill = cursor.getString(cursor.getColumnIndex("equipSkill"));
+            equip_skill = equip_skill.replace("[", "").replace("]", "");
+            equip_skill = equip_skill.replace("\"", "").replace(", 唯一被动", "\n唯一被动");
+            equip.setEquip_skill(equip_skill);
+            byte[] data = cursor.getBlob(cursor.getColumnIndex("equip_icon"));
+            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+            equip.setImage(image);
+        }
+        return equip;
     }
 }
