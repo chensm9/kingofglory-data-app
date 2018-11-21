@@ -15,7 +15,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 public class myDB {
     public static myDB instance = null;
@@ -357,14 +356,15 @@ public class myDB {
     // 获取难度指数
     public String get_difficulty(String name) {
         Cursor cursor = m_db.query("hero",
-                new String[] {"difficulty"},
-                "name=?", new String[] {name}, null, null, null);
+                new String[]{"difficulty"},
+                "name=?", new String[]{name}, null, null, null);
         String data = "";
-        if(cursor.moveToFirst())
+        if (cursor.moveToFirst())
             data = cursor.getString(0);
         cursor.close();
         return data;
-    
+    }
+
     public List<EquipItem> get_equip_list(String type) {
         String sql = String.format("SELECT * FROM equip WHERE category = '%s' ORDER BY price", type);
         Cursor cursor = m_db.rawQuery(sql, null);
