@@ -15,18 +15,23 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@mipmap/pic">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/skin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
         <ImageButton
             android:id="@+id/back"
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleX="1.5"
             android:scaleY="1.5"
             android:background="@mipmap/back"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"/>
 
         <TextView
             android:id="@+id/title"
@@ -34,30 +39,29 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="wrap_content"
             android:text="爆弹怪猫"
             android:textSize="15sp"
-            android:textColor="#FFFFFF"
-            android:layout_alignStart="@id/type"
-            android:layout_alignBottom="@id/name"
-            android:layout_marginBottom="35dp"/>
+            android:textColor="#000000"
+            android:layout_below="@id/back"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:background="#6f6f6f"/>
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="沈梦溪"
             android:textSize="25sp"
-            android:textColor="#FFFFFF"
-            android:layout_alignStart="@id/type"
-            android:layout_alignBottom="@id/type"
-            android:layout_marginBottom="25dp"/>
+            android:textColor="#000000"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="15dp"/>
         <TextView
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="法师"
             android:textSize="15sp"
-            android:textColor="#FFFFFF"
-            android:layout_alignStart="@id/info"
-            android:layout_alignBottom="@id/info"
-            android:layout_marginBottom="25dp"/>
+            android:textColor="#000000"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="15dp"/>
         <LinearLayout
             android:id="@+id/info"
             android:layout_width="wrap_content"
@@ -68,12 +72,12 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_marginStart="15dp"
             android:layout_marginBottom="10dp">
             <TextView
-                android:id="@+id/difficultly"
+                android:id="@+id/difficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="难度 4"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginEnd="20dp"/>
             <TextView
                 android:id="@+id/skill"
@@ -81,7 +85,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="技能 5"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginEnd="20dp"/>
             <TextView
                 android:id="@+id/attack"
@@ -89,15 +93,15 @@ xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="攻击 8"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:layout_marginEnd="20dp"/>
             <TextView
-                android:id="@+id/live"
+                android:id="@+id/survival"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="生存 5"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#000000"/>
         </LinearLayout>
     </RelativeLayout>
     <TextView
@@ -109,70 +113,119 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:textColor="#000000"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
-
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/skills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp">
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon"
-            android:layout_marginEnd="10dp"
-            android:tooltipText="测试"/>
+            android:id="@+id/skill1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/skillName1"
+            app:layout_constraintRight_toRightOf="@id/skillName1"
+            android:scaleType="centerCrop"/>
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon"
-            android:layout_marginEnd="10dp"/>
+            android:id="@+id/skill2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toRightOf="@id/skill1"
+            app:layout_constraintLeft_toLeftOf="@id/skillName2"
+            app:layout_constraintRight_toRightOf="@id/skillName2"/>
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon"
-            android:layout_marginEnd="10dp"/>
+            android:id="@+id/skill3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toRightOf="@id/skill2"
+            app:layout_constraintLeft_toLeftOf="@id/skillName3"
+            app:layout_constraintRight_toRightOf="@id/skillName3"/>
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon"
-            android:layout_marginEnd="10dp"/>
+            android:id="@+id/skill4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toRightOf="@id/skill3"
+            app:layout_constraintLeft_toLeftOf="@id/skillName4"
+            app:layout_constraintRight_toRightOf="@id/skillName4"/>
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon" />
+            android:id="@+id/skill5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toRightOf="@id/skill4"
+            app:layout_constraintLeft_toLeftOf="@id/skillName5"
+            app:layout_constraintRight_toRightOf="@id/skillName5"/>
         <ImageButton
-            android:layout_width="wrap_content"
+            android:id="@+id/skill6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/skillName6"
+            app:layout_constraintRight_toRightOf="@id/skillName6"/>
+        <TextView
+            android:id="@+id/skillName1"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:background="@mipmap/icon" />
-    </LinearLayout>
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill1"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/skillName2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill2"
+            app:layout_constraintLeft_toRightOf="@id/skillName1"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/skillName3"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill3"
+            app:layout_constraintLeft_toRightOf="@id/skillName2"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/skillName4"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill4"
+            app:layout_constraintLeft_toRightOf="@id/skillName3"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/skillName5"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill5"
+            app:layout_constraintLeft_toRightOf="@id/skillName4"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/skillName6"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴躁节奏"
+            app:layout_constraintTop_toBottomOf="@id/skill6"
+            app:layout_constraintLeft_toRightOf="@id/skillName5"
+            android:textAlignment="center"/>
+    </android.support.constraint.ConstraintLayout>
     <TextView
-        android:id="@+id/skillName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:text="暴躁节奏"/>
-    <TextView
-        android:id="@+id/skillDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="20dp"
-        android:textSize="15sp"
-        android:text="被动技能："/>
-
-    <View
+        android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#1E000000"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
-
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6"
+        android:layout_marginHorizontal="30dp"/>
     <TextView
         android:id="@+id/equipTitle"
         android:layout_width="wrap_content"
@@ -182,93 +235,113 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:textColor="#000000"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/equipCommend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"
         android:layout_marginTop="10dp">
         <ImageView
             android:id="@+id/equip1"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
             android:background="@mipmap/icon"/>
         <ImageView
             android:id="@+id/equip2"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintLeft_toRightOf="@id/equip1"
             android:background="@mipmap/icon"/>
         <ImageView
             android:id="@+id/equip3"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintLeft_toRightOf="@id/equip2"
             android:background="@mipmap/icon"/>
         <ImageView
             android:id="@+id/equip4"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintLeft_toRightOf="@id/equip3"
             android:background="@mipmap/icon"/>
         <ImageView
             android:id="@+id/equip5"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintLeft_toRightOf="@id/equip4"
             android:background="@mipmap/icon"/>
         <ImageView
             android:id="@+id/equip6"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="5dp"
+            app:layout_constraintLeft_toRightOf="@id/equip5"
             android:background="@mipmap/icon"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/equipName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        >
         <TextView
             android:id="@+id/equipName1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/equip1"
+            app:layout_constraintLeft_toLeftOf="@id/equip1"
+            app:layout_constraintRight_toRightOf="@id/equip1"/>
         <TextView
             android:id="@+id/equipName2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/equip2"
+            app:layout_constraintLeft_toLeftOf="@id/equip2"
+            app:layout_constraintRight_toRightOf="@id/equip2"/>
         <TextView
             android:id="@+id/equipName3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/equip3"
+            app:layout_constraintLeft_toLeftOf="@id/equip3"
+            app:layout_constraintRight_toRightOf="@id/equip3"/>
         <TextView
             android:id="@+id/equipName4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/equip4"
+            app:layout_constraintLeft_toLeftOf="@id/equip4"
+            app:layout_constraintRight_toRightOf="@id/equip4"/>
         <TextView
             android:id="@+id/equipName5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/equip5"
+            app:layout_constraintLeft_toLeftOf="@id/equip5"
+            app:layout_constraintRight_toRightOf="@id/equip5"/>
         <TextView
             android:id="@+id/equipName6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:text="虚空法杖"/>
-    </LinearLayout>
+            android:text="虚空法杖"
+            app:layout_constraintTop_toBottomOf="@id/equip6"
+            app:layout_constraintLeft_toLeftOf="@id/equip6"
+            app:layout_constraintRight_toRightOf="@id/equip6"/>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
@@ -287,49 +360,93 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:textColor="#000000"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/MingWen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp">
         <ImageView
             android:id="@+id/MingWen1img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@mipmap/icon"/>
-        <TextView
-            android:id="@+id/MingWen1"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:src="@mipmap/icon"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen1"
+            app:layout_constraintRight_toRightOf="@id/MingWen1"/>
         <ImageView
             android:id="@+id/MingWen2img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@mipmap/icon"/>
-        <TextView
-            android:id="@+id/MingWen2"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="虚空法杖"
-            android:layout_marginEnd="8dp"/>
+            android:src="@mipmap/icon"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen2"
+            app:layout_constraintRight_toRightOf="@id/MingWen2"/>
         <ImageView
             android:id="@+id/MingWen3img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@mipmap/icon"/>
+            android:src="@mipmap/icon"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen3"
+            app:layout_constraintRight_toRightOf="@id/MingWen3"/>
         <TextView
-            android:id="@+id/MingWen3"
-            android:layout_width="55dp"
+            android:id="@+id/MingWen1"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:text="虚空法杖"/>
-    </LinearLayout>
+            android:textAlignment="center"
+            android:text="5级:无双"
+            app:layout_constraintTop_toBottomOf="@id/MingWen1img" />
+        <TextView
+            android:id="@+id/MingWen2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:text="5级:无双"
+            app:layout_constraintTop_toBottomOf="@id/MingWen2img"
+            app:layout_constraintLeft_toRightOf="@id/MingWen1"/>
+        <TextView
+            android:id="@+id/MingWen3"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textAlignment="center"
+            android:text="5级:无双"
+            app:layout_constraintTop_toBottomOf="@id/MingWen3img"
+            app:layout_constraintLeft_toRightOf="@id/MingWen2"/>
+        <TextView
+            android:id="@+id/MingWenAttr1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴击率+0.7%"
+            android:textColor="#317Ef3"
+            app:layout_constraintTop_toBottomOf="@id/MingWen1"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen1"
+            app:layout_constraintRight_toRightOf="@id/MingWen1"/>
+        <TextView
+            android:id="@+id/MingWenAttr2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴击率+0.7%"
+            android:textColor="#317Ef3"
+            app:layout_constraintTop_toBottomOf="@id/MingWen2"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen2"
+            app:layout_constraintRight_toRightOf="@id/MingWen2"/>
+        <TextView
+            android:id="@+id/MingWenAttr3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="暴击率+0.7%"
+            android:textColor="#317Ef3"
+            app:layout_constraintTop_toBottomOf="@id/MingWen3"
+            app:layout_constraintLeft_toLeftOf="@+id/MingWen3"
+            app:layout_constraintRight_toRightOf="@id/MingWen3"/>
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
@@ -349,13 +466,44 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
     <TextView
-        android:id="@+id/playCommend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginStart="20dp"
         android:textSize="15sp"
-        android:text="玩法技巧："/>
+        android:text="技能："/>
+    <TextView
+        android:id="@+id/skillCommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6"
+        android:layout_marginHorizontal="30dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:textSize="15sp"
+        android:text="团战："/>
+    <TextView
+        android:id="@+id/warCommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6"
+        android:layout_marginHorizontal="30dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:textSize="15sp"
+        android:text="克制方法："/>
+    <TextView
+        android:id="@+id/againstCommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f6f6f6"
+        android:layout_marginHorizontal="30dp"/>
 
 
 </LinearLayout>
