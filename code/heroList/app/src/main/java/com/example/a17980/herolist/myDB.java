@@ -226,7 +226,7 @@ public class myDB {
         }
         cursor.close();
     }
-    
+
     public List<EquipItem> get_equip_list(String type) {
         String sql = String.format("SELECT * FROM equip WHERE category = '%s' ORDER BY price", type);
         Cursor cursor = m_db.rawQuery(sql, null);
@@ -265,5 +265,36 @@ public class myDB {
             equip.setImage(image);
         }
         return equip;
+    }
+
+    public List<Hero> get_hero_list(String type, int islike) {
+        String sql = String.format("SELECT * FROM hero WHERE role = '%s'and islike = '%d'", type, islike);
+        if (type.equals("全部")) {
+            sql = String.format("SELECT * FROM hero WHERE islike = '%d'", islike);
+        }
+        Cursor cursor = m_db.rawQuery(sql, null);
+
+        List<Hero> list = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String role = cursor.getString(cursor.getColumnIndex("role"));
+            byte[] data = cursor.getBlob(cursor.getColumnIndex("big_icon"));
+            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+            Hero hero = new Hero(image, name);
+            byte[] data2 = cursor.getBlob(cursor.getColumnIndex("hero_icon"));
+            Bitmap image2 = BitmapFactory.decodeByteArray(data2, 0, data2.length);
+            hero.setSmallIcon(image2);
+            hero.setHeroRole(role);
+            list.add(hero);
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void update_like_hero(String hero_name, int islike) {
+        String sql = String.format(
+                Locale.CHINA,
+                "UPDATE hero set islike = %d where name = \"%s\"", islike, hero_name);
+        m_db.execSQL(sql);
     }
 }

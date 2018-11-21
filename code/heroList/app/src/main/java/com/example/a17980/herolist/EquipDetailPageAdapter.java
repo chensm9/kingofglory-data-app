@@ -4,10 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/**
- * Created by fjj on 2017/6/16.
- */
-
 public class EquipDetailPageAdapter extends FragmentPagerAdapter {
 
     private static int PAGE_COUNT;//表示要展示的页面数量

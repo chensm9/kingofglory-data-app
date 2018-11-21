@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 public class EquipActivity extends AppCompatActivity {
-    private myDB m_db = null;
-
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
@@ -17,7 +15,6 @@ public class EquipActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equip);
-        m_db = myDB.getInstance();
 
         mTabLayout = findViewById(R.id.sliding_tabs);
         mViewPager = findViewById(R.id.viewpager);
