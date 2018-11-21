@@ -14,8 +14,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Locale;
+import java.util.Map;
 
 public class myDB {
     public static myDB instance = null;
@@ -162,13 +162,13 @@ public class myDB {
 
     // 获取所有皮肤
     public void get_skin(List<Hero> data) {
-        Cursor cursor = m_db.query("skin",
-                new String[] {"belongTo", "skin_image"},
-                "price=?", new String[] {"初始皮肤"}, null, null, null);
+        Cursor cursor = m_db.query("hero",
+                new String[] {"name", "big_icon"},
+                null, null, null, null, null);
         while(cursor.moveToNext()) {
             String name = cursor.getString(0);
-            byte[] skin = cursor.getBlob(1);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(skin, 0, skin.length);
+            byte[] icon = cursor.getBlob(1);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(icon, 0, icon.length);
             data.add(new Hero(bitmap, name));
         }
         cursor.close();
@@ -211,6 +211,7 @@ public class myDB {
         return role;
     }
 
+    // 获取技能名称和图标
     public void get_skill(String name, Map<String, Bitmap> skill_map) {
         Cursor cursor = m_db.query("skill",
                 new String[]{"name", "skill_icon"},
@@ -226,7 +227,145 @@ public class myDB {
         }
         cursor.close();
     }
-    
+
+    // 获取指定技能描述
+    public String get_skill_description(String name) {
+        Cursor cursor = m_db.query("skill",
+                new String[] {"effect"},
+                "name=?", new String[] {name}, null, null, null);
+        String desc = "";
+        if(cursor.moveToFirst()) {
+            desc = cursor.getString(0);
+        }
+        cursor.close();
+        return desc;
+    }
+
+    // 获取装备配置json
+    public String get_collocation(String name) {
+        Cursor cursor = m_db.query("collocation",
+                new String[] {"collocation"},
+                "belongTo=?", new String[] {name}, null, null, null);
+        String collocation = "";
+        if(cursor.moveToFirst())
+            collocation = cursor.getString(0);
+        cursor.close();
+        return collocation;
+    }
+
+    // 获取装备图标
+    public Bitmap get_equip_icon(String name) {
+        Cursor cursor = m_db.query("equip",
+                new String[] {"equip_icon"},
+                "name=?", new String[] {name}, null, null, null);
+        Bitmap bitmap = null;
+        if(cursor.moveToFirst()) {
+            byte[] equip_icon = cursor.getBlob(0);
+            bitmap = BitmapFactory.decodeByteArray(equip_icon, 0, equip_icon.length);
+            Matrix matrix = new Matrix();
+            matrix.postScale((float)2.3, (float)2.3);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix,true);
+        }
+        cursor.close();
+        return bitmap;
+    }
+
+    // 获取指定英雄的铭文装配方案
+    public String get_runes(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"runes"},
+                "name=?", new String[] {name}, null, null, null);
+        String runes = "";
+        if(cursor.moveToFirst())
+            runes = cursor.getString(0);
+        cursor.close();
+        return runes;
+    }
+
+    // 获取技能用法
+    public String get_skillCommend(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"use_skill"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取克制方法
+    public String get_againstCommend(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"against_skill"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取团战技巧
+    public String get_warCommend(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"melee_ideas"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取生存指数
+    public String get_survival(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"survival"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取攻击指数
+    public String get_attack(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"attack"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取技能指数
+    public String get_skill(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[] {"skill"},
+                "name=?", new String[] {name}, null, null, null);
+        String data = "";
+        if(cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
+    // 获取难度指数
+    public String get_difficulty(String name) {
+        Cursor cursor = m_db.query("hero",
+                new String[]{"difficulty"},
+                "name=?", new String[]{name}, null, null, null);
+        String data = "";
+        if (cursor.moveToFirst())
+            data = cursor.getString(0);
+        cursor.close();
+        return data;
+    }
+
     public List<EquipItem> get_equip_list(String type) {
         String sql = String.format("SELECT * FROM equip WHERE category = '%s' ORDER BY price", type);
         Cursor cursor = m_db.rawQuery(sql, null);
@@ -265,5 +404,36 @@ public class myDB {
             equip.setImage(image);
         }
         return equip;
+    }
+
+    public List<Hero> get_hero_list(String type, int islike) {
+        String sql = String.format("SELECT * FROM hero WHERE role = '%s'and islike = '%d'", type, islike);
+        if (type.equals("全部")) {
+            sql = String.format("SELECT * FROM hero WHERE islike = '%d'", islike);
+        }
+        Cursor cursor = m_db.rawQuery(sql, null);
+
+        List<Hero> list = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String role = cursor.getString(cursor.getColumnIndex("role"));
+            byte[] data = cursor.getBlob(cursor.getColumnIndex("big_icon"));
+            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+            Hero hero = new Hero(image, name);
+            byte[] data2 = cursor.getBlob(cursor.getColumnIndex("hero_icon"));
+            Bitmap image2 = BitmapFactory.decodeByteArray(data2, 0, data2.length);
+            hero.setSmallIcon(image2);
+            hero.setHeroRole(role);
+            list.add(hero);
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void update_like_hero(String hero_name, int islike) {
+        String sql = String.format(
+                Locale.CHINA,
+                "UPDATE hero set islike = %d where name = \"%s\"", islike, hero_name);
+        m_db.execSQL(sql);
     }
 }
