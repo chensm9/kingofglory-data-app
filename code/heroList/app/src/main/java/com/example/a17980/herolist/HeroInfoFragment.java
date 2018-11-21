@@ -2,6 +2,7 @@ package com.example.a17980.herolist;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -55,7 +56,7 @@ public class HeroInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.hero_list, container, false);
+        final View view = inflater.inflate(R.layout.hero_list, container, false);
         final GridView gridView = view.findViewById(R.id.gridView);
 
         //根据mParam来判断当前展示的是哪一页，根据页数的不同展示不同的信息
@@ -68,49 +69,54 @@ public class HeroInfoFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                if (((TextView)view.findViewById(R.id.heroName)).getText().equals("添加英雄")) {
-                    final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
-                    final View dialogView = View.inflate(view.getContext(), R.layout.dialog, null);
-                    GridView gridView1 = dialogView.findViewById(R.id.gridView);
-                    final HeroDialogListViewAdapter heroDialogListViewAdapter =
-                            new HeroDialogListViewAdapter(dialogView.getContext(), type[mParam]);
-                    gridView1.setAdapter(heroDialogListViewAdapter);
-                    if (heroDialogListViewAdapter.getCount() == 0) {
-                        TextView title = dialogView.findViewById(R.id.title);
-                        title.setText("无可添加的英雄");
-                        dialogView.findViewById(R.id.gridView).setVisibility(View.GONE);
-                        dialogBuilder.setView(dialogView).create().show();
-                        return;
-                    }
-                    dialogBuilder.setView(dialogView);
-                    final AlertDialog dialog = dialogBuilder.create();
-                    gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            TextView heroName = view.findViewById(R.id.hero_name);
-                            String hero_name = heroName.getText().toString();
-                            Hero hero = (Hero)heroDialogListViewAdapter.getItem(position);
-                            heroListViewAdapter.addItem(hero);
-                            if (type[mParam].equals("全部")) {
-                                for (int i = 0;i < type.length; i++) {
-                                    if (hero.getHeroRole().equals(type[i])) {
-                                        ((HeroInfoFragment)HeroInfoFragment.getFragmentList().get(i))
-                                                .getAdapter().addItem(hero);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                ((HeroInfoFragment)HeroInfoFragment.getFragmentList().get(0))
-                                        .getAdapter().addItem(hero);
-                            }
-                            myDB.getInstance().update_like_hero(hero_name, 1);
-                            heroDialogListViewAdapter.removeItem(position);
-                            Toast.makeText(view.getContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                            dialog.cancel();
+                    String hero_name = ((TextView)view.findViewById(R.id.heroName)).getText().toString();
+                    if (hero_name.equals("添加英雄")) {
+                        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
+                        final View dialogView = View.inflate(view.getContext(), R.layout.dialog, null);
+                        GridView gridView1 = dialogView.findViewById(R.id.gridView);
+                        final HeroDialogListViewAdapter heroDialogListViewAdapter =
+                                new HeroDialogListViewAdapter(dialogView.getContext(), type[mParam]);
+                        gridView1.setAdapter(heroDialogListViewAdapter);
+                        if (heroDialogListViewAdapter.getCount() == 0) {
+                            TextView title = dialogView.findViewById(R.id.title);
+                            title.setText("无可添加的英雄");
+                            dialogView.findViewById(R.id.gridView).setVisibility(View.GONE);
+                            dialogBuilder.setView(dialogView).create().show();
+                            return;
                         }
-                    });
-                    dialog.show();
-                }
+                        dialogBuilder.setView(dialogView);
+                        final AlertDialog dialog = dialogBuilder.create();
+                        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                TextView heroName = view.findViewById(R.id.hero_name);
+                                String hero_name = heroName.getText().toString();
+                                Hero hero = (Hero)heroDialogListViewAdapter.getItem(position);
+                                heroListViewAdapter.addItem(hero);
+                                if (type[mParam].equals("全部")) {
+                                    for (int i = 0;i < type.length; i++) {
+                                        if (hero.getHeroRole().equals(type[i])) {
+                                            ((HeroInfoFragment)HeroInfoFragment.getFragmentList().get(i))
+                                                    .getAdapter().addItem(hero);
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    ((HeroInfoFragment)HeroInfoFragment.getFragmentList().get(0))
+                                            .getAdapter().addItem(hero);
+                                }
+                                myDB.getInstance().update_like_hero(hero_name, 1);
+                                heroDialogListViewAdapter.removeItem(position);
+                                Toast.makeText(view.getContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        Intent intent = new Intent(view.getContext(), DetailActivity.class);;
+                        intent.putExtra("detail", hero_name);
+                        startActivity(intent);
+                    }
             }
         });
 

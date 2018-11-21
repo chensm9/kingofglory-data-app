@@ -86,10 +86,6 @@ public class EpigraphActivity extends Activity {
             } catch (Exception e) {
                 System.out.print(e.getMessage());
             }
-//            for(int i = 0; i < 400; i+=100) {
-//                attr_collection c = new attr_collection("物理穿透"+i, i);
-//                sample_attr.add(c);
-//            }
             sample_adapter.notifyDataSetChanged();
             go("second", "");
         }

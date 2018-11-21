@@ -37,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton equip = findViewById(R.id.equip);
+        equip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EquipActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
         //初始化视频
         videoInit();
     }

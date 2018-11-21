@@ -61,7 +61,7 @@ public class DefineViewGroup extends ViewGroup {
         View view28=getChildAt(28);
         View view29=getChildAt(29);
 
-        view0.layout(SPACE+viewWidth/factor, 0, viewWidth*2/factor+SPACE, viewHeight/factor+SPACE);
+            view0.layout(SPACE+viewWidth/factor, 0, viewWidth*2/factor+SPACE, viewHeight/factor+SPACE);
         view1.layout(SPACE+viewWidth*2/factor, 0, viewWidth+SPACE, viewHeight/factor+SPACE);
         view2.layout(SPACE+viewWidth/factor/2, viewHeight/factor, viewWidth/2+SPACE, viewHeight*2/factor+SPACE);
         view3.layout(SPACE+viewWidth/factor/2+viewWidth/factor, viewHeight/factor, viewWidth*4/5+SPACE, viewHeight*7/10);
