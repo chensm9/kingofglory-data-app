@@ -93,7 +93,6 @@ public class DetailActivity extends Activity {
 
 //                    bt.setImageBitmap((Bitmap)e.getValue());
                     final String desc = m_db.get_skill_description(e.getKey().toString());
-                    final int pos = i;
                     if(i == 0) {
                         desc_part.setText(desc);
                         bt.setBackground(new BitmapDrawable(origin));
