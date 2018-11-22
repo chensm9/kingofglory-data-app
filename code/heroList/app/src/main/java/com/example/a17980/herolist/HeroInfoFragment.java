@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.GridLayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -23,6 +26,7 @@ public class HeroInfoFragment extends Fragment {
     private static List<Fragment> fragmentList;
     private HeroListViewAdapter myAdapter = null;
     private int mParam;//用来表示当前需要展示的是哪一页
+
     public HeroInfoFragment() {
         // Required empty public constructor
     }
@@ -64,6 +68,7 @@ public class HeroInfoFragment extends Fragment {
 
         final  HeroListViewAdapter heroListViewAdapter = new HeroListViewAdapter(view.getContext(), type[mParam]);
         myAdapter = heroListViewAdapter;
+
         gridView.setAdapter(myAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,7 +120,7 @@ public class HeroInfoFragment extends Fragment {
                     } else {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);;
                         intent.putExtra("detail", hero_name);
-                        startActivity(intent);
+                        startActivityForResult(intent, 0);
                     }
             }
         });
@@ -181,7 +186,7 @@ public class HeroInfoFragment extends Fragment {
 //            }
 //        };
 //        recyclerView.setAdapter(myAdapter);
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),3);//2列
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(),3);//3列
 //        recyclerView.setLayoutManager(gridLayoutManager);
         return view;
     }

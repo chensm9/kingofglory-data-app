@@ -16,10 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".ListActivity" />-->
-        <activity android:name=".EpigraphActivity"/>
-        <activity android:name=".ListActivity" />
-        <activity android:name=".EquipActivity" />
+        <!-- <activity android:name=".ListActivity" /> -->
+        <activity
+            android:name=".EpigraphActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ListActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".EquipActivity"
+            android:launchMode="singleInstance" />
         <activity android:name=".DetailActivity" />
+
     </application>
+
 </manifest>

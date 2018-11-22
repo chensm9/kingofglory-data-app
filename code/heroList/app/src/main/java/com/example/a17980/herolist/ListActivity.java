@@ -1,10 +1,15 @@
 package com.example.a17980.herolist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class ListActivity extends AppCompatActivity{
     private ViewPager mViewPager;
