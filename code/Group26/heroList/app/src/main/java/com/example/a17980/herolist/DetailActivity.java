@@ -65,12 +65,12 @@ public class DetailActivity extends Activity {
             TextView skill = findViewById(R.id.skill);
 
             name.setText(hero);
-            name.setBackgroundColor(Color.argb(100, 246,246, 246));
+
             nick_name.setText(m_db.get_nick_name(hero));
-            nick_name.setBackgroundColor(Color.argb(100, 246,246, 246));
+
             role.setText(m_db.get_role(hero));
-            role.setBackgroundColor(Color.argb(100, 246,246, 246));
-            evaluate.setBackgroundColor(Color.argb(100, 246,246, 246));
+
+
             difficulty.setText("难度 "+m_db.get_difficulty(hero));
             attack.setText("攻击 "+m_db.get_attack(hero));
             survival.setText("生存 "+m_db.get_survival(hero));

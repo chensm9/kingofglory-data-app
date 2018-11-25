@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,11 +93,13 @@ public class MainActivity extends AppCompatActivity {
                             volume.setBackgroundResource(R.mipmap.close);
                             mp.setVolume(0f, 0f);
                             vol = false;
+                            Toast.makeText(getApplication(), "音量：关", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             volume.setBackgroundResource(R.mipmap.open);
                             mp.setVolume(1f,1f);
                             vol = true;
+                            Toast.makeText(getApplication(), "音量：开", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
