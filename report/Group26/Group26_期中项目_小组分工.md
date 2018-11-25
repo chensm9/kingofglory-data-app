@@ -12,10 +12,10 @@
 <html>
     <table>
         <tr>
-            <td>学号</td>
-            <td>姓名</td>
-            <td>组内角色</td>
-            <td>项目分工</td>
+            <td><strong>学号<strong/></td>
+            <td><strong>姓名<strong/></td>
+            <td><strong>组内角色<strong/></td>
+            <td><strong>项目分工内容<strong/></td>
         </tr>
         <tr>
             <td>16340030</td>
