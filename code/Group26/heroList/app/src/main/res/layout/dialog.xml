@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="80dp"
+    android:layout_marginBottom="80dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:text="请选择英雄添加入喜欢列表"
+        android:textSize="20dp"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_margin="8dp"
+        android:numColumns="4"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"/>
+
+</LinearLayout>
